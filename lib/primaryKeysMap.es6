@@ -1,6 +1,7 @@
 import P      from 'bluebird';
 import _      from 'lodash';
 import config from './config';
+import Set    from 'set';
 
 import {
   getMainTableRows,

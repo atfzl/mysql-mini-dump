@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 let filePath = './../sampleConfig.js';
 
 try {
@@ -7,4 +9,10 @@ try {
   process.exit(1);
 }
 
-export default config;
+export default _.merge({
+  resultFile: 'mysql-constraint-dump.sql',
+  mysql: {
+    host: 'localhost',
+    user: 'root'
+  }
+}, config);

@@ -18,6 +18,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
   console.log((fileName + ' created !').blue);
   process.exit(0);
 }).catch(function (err) {
-  console.log(err);
+  console.log('Error'.red);
+  console.log(require('util').inspect(err, false, null));
   process.exit(1);
 });

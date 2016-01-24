@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "engines": {
+    "node": "*"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Atif Afzal",
   "license": "ISC",
   "devDependencies": {
     "babel-eslint": "^5.0.0-beta6",
@@ -25,6 +28,7 @@
     "colors": "^1.1.2",
     "lodash": "^4.0.0",
     "mysql": "^2.10.2",
+    "set": "^1.1.1",
     "shelljs": "^0.5.3"
   }
 }

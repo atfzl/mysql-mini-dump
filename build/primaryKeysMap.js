@@ -17,6 +17,10 @@ var _config = require('./config');
 
 var _config2 = _interopRequireDefault(_config);
 
+var _set = require('set');
+
+var _set2 = _interopRequireDefault(_set);
+
 var _utils = require('./utils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -56,7 +60,7 @@ var mapInterface = function () {
 
         ids.forEach((_context = map[table]).add.bind(_context));
       } else {
-        map[table] = new Set(ids);
+        map[table] = new _set2.default(ids);
       }
     },
     get: function get() {

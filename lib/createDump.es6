@@ -1,8 +1,7 @@
-import shell  from 'shelljs';
-import _      from 'lodash';
-import fs     from 'fs';
-import P      from 'bluebird';
-import config from './config';
+import shell     from 'shelljs';
+import _         from 'lodash';
+import P         from 'bluebird';
+import config    from './config';
 
 shell.config.silent = true;
 
@@ -13,7 +12,7 @@ let mysqldumpBase = `mysqldump -h${config.mysql.host} -u${config.mysql.user} -p$
 export default function createDump (primaryIdsMap) {
   let tableDumps = _.map(primaryIdsMap, (ids, table) => {
     let primaryKey = config.overridePrimaryKey[table] || 'id';
-    return `${table} --where "${primaryKey} in (${Array.from(ids)})"`;
+    return `${table} --where "${primaryKey} in (${_.keys(ids._set)})"`;
   }).join(' ');
 
   let mysqldumpOptions = config.mysqldumpOptions
@@ -21,7 +20,10 @@ export default function createDump (primaryIdsMap) {
   
   let resultFile = `--result-file ${config.resultFile}`;
   
-  let finalDumpQuery = `${mysqldumpBase} ${tableDumps} ${mysqldumpOptions}  ${resultFile}`;
+  let finalDumpQuery = `${mysqldumpBase} ${tableDumps} ${mysqldumpOptions} ${resultFile}`;
+  
+  if (config.verbose)
+    console.log(finalDumpQuery);
   
   return exec(finalDumpQuery)
     .then((stdout, stderr) => {

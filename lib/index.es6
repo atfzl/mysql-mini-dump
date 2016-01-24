@@ -10,7 +10,8 @@ getPrimaryKeysMap()
     console.log(`${fileName} created !`.blue);
     process.exit(0);
   })
-  .catch(err => {
-    console.log(err);
+  .catch((err) => {
+    console.log('Error'.red);
+    console.log(require('util').inspect(err, false, null));
     process.exit(1);
   });

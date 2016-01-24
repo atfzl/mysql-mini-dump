@@ -36,7 +36,7 @@ var mysqldumpBase = 'mysqldump -h' + _config2.default.mysql.host + ' -u' + _conf
 function createDump(primaryIdsMap) {
   var tableDumps = _lodash2.default.map(primaryIdsMap, function (ids, table) {
     var primaryKey = _config2.default.overridePrimaryKey[table] || 'id';
-    return table + ' --where "' + primaryKey + ' in (' + Array.from(ids) + ')"';
+    return table + ' --where "' + primaryKey + ' in (' + _lodash2.default.keys(ids._set) + ')"';
   }).join(' ');
 
   var mysqldumpOptions = _config2.default.mysqldumpOptions.map(function (val) {
@@ -45,7 +45,9 @@ function createDump(primaryIdsMap) {
 
   var resultFile = '--result-file ' + _config2.default.resultFile;
 
-  var finalDumpQuery = mysqldumpBase + ' ' + tableDumps + ' ' + mysqldumpOptions + '  ' + resultFile;
+  var finalDumpQuery = mysqldumpBase + ' ' + tableDumps + ' ' + mysqldumpOptions + ' ' + resultFile;
+
+  if (_config2.default.verbose) console.log(finalDumpQuery);
 
   return exec(finalDumpQuery).then(function (stdout, stderr) {
     return stderr ? _bluebird2.default.reject(stderr) : _bluebird2.default.resolve(_config2.default.resultFile);
