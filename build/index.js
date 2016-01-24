@@ -1,3 +1,5 @@
+'use strict';
+
 var colors = require('colors');
 
 // if (process.argv.length !== 3) {
