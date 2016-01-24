@@ -1,7 +1,16 @@
-var colors = require('colors');
+import 'colors';
+import './validations';
 
-// if (process.argv.length !== 3) {
-//   console.log('Please provide path to json config file as next argument'.red);
-// }
+import getPrimaryKeysMap from './primaryKeysMap';
+import createDump        from './createDump';
 
-console.log('abcd');
+getPrimaryKeysMap()
+  .then(createDump)
+  .then((fileName) => {
+    console.log(`${fileName} created !`.blue);
+    process.exit(0);
+  })
+  .catch(err => {
+    console.log(err);
+    process.exit(1);
+  });

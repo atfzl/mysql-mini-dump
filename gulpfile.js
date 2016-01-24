@@ -13,8 +13,12 @@ var lib          = 'lib',
     build        = 'build',
     buildPath    = path.resolve(build),
     jsglob       = buildPath + '/**/*.js',
+
+    es6Extension = 'es6',
+    jsExtension  = 'js',
     
-    babelPresets = ['es2015', 'stage-1'];
+    babelPresets = ['es2015', 'stage-0'],
+    entryFile    = 'app.js';
 
 gulp.task('default', ['transpile-watch']);
 gulp.task('nodemon', ['transpile-watch', 'nodemon-watch']);
@@ -23,7 +27,7 @@ gulp.task('clean-build' , function(done) { return clean(buildPath , done); });
 
 gulp.task('nodemon-watch', function (done) {
   setTimeout(function () {
-    nodemon({script:'app.js',ext:'.js',watch:buildPath});
+    nodemon({script:entryFile, ext:jsExtension, watch:buildPath});
   }, 1000);
 });
 
@@ -46,7 +50,7 @@ gulp.task('transpile-watch', function () {
           })
           .on('unlink', function (path) {
             console.log('removed: '.blue + path.magenta);
-            del(path.replace(lib, build).replace('es6', 'js'));
+            del(path.replace(lib, build).replace(es6Extension, jsExtension));
           })
          )
     .pipe(babel({presets: babelPresets}))
