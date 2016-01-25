@@ -39,7 +39,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/atfzl/mysql-mini-dump.git"
+    "url": "git+https://github.com/atfzl/mysqlminidump.git"
   },
   "keywords": [
     "mysql",
@@ -50,7 +50,7 @@
     "mini"
   ],
   "bugs": {
-    "url": "https://github.com/atfzl/mysql-mini-dump/issues"
+    "url": "https://github.com/atfzl/mysqlminidump/issues"
   },
-  "homepage": "https://github.com/atfzl/mysql-mini-dump#readme"
+  "homepage": "https://github.com/atfzl/mysqlminidump#readme"
 }
