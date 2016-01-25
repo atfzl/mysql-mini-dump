@@ -11,7 +11,7 @@ export const getMainTableRows = ({ table, offset, limit }) => {
 };
 
 export const getTableRows = ({ table, ids}) => {
-  let primaryKey = config.overridePrimaryKey[table] || 'id';
+  let primaryKey = _.get(config, 'overridePrimaryKey[table]') || 'id';
   let q = `select * from ${table} where ${primaryKey} in ( ${ids} ) ;`;
   logQuery(q);
   return query(q)

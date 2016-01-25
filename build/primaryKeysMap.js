@@ -44,7 +44,7 @@ function recursiveResolve(_ref) {
 
 function core(rows, foreignKeyMap) {
   return _bluebird2.default.all(_lodash2.default.map(foreignKeyMap, function (val, column) {
-    var foreignIds = (0, _lodash2.default)(rows).map(column).compact().value();
+    var foreignIds = (0, _lodash2.default)(rows).map(column).uniq().compact().value();
     mapInterface.fill(val.REFERENCED_TABLE_NAME, foreignIds);
 
     return foreignIds.length ? recursiveResolve({ table: val.REFERENCED_TABLE_NAME, ids: foreignIds }) : _bluebird2.default.resolve();

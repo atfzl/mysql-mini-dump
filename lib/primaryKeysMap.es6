@@ -27,7 +27,7 @@ function recursiveResolve ({table, ids}) {
 
 function core (rows, foreignKeyMap) {
   return P.all(_.map(foreignKeyMap, (val, column) => {
-    let foreignIds = _(rows).map(column).compact().value();
+    let foreignIds = _(rows).map(column).uniq().compact().value();
     mapInterface.fill(val.REFERENCED_TABLE_NAME, foreignIds);
     
     return foreignIds.length

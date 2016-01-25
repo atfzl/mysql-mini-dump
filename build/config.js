@@ -14,14 +14,22 @@ var _fs2 = _interopRequireDefault(_fs);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var filePath = _lodash2.default.last(process.argv);
+var filePath = process.argv[2];
+
+if (!filePath) {
+  logErrorAndExit();
+}
 
 try {
   var file = _fs2.default.readFileSync(filePath);
   var config = JSON.parse(file);
 } catch (e) {
+  logErrorAndExit(e);
+}
+
+function logErrorAndExit(e) {
   console.log('Please provide path to a valid json file');
-  console.log('Error: ' + e);
+  if (e) console.log('Error: ' + e);
   process.exit(1);
 }
 
@@ -30,5 +38,7 @@ exports.default = _lodash2.default.merge({
   mysql: {
     host: 'localhost',
     user: 'root'
-  }
+  },
+  verbose: _lodash2.default.includes(process.argv, '-v'),
+  mysqldumpOptions: []
 }, config);

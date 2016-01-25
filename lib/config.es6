@@ -1,14 +1,23 @@
 import _  from 'lodash';
 import fs from 'fs';
 
-let filePath = _.last(process.argv);
+let filePath = process.argv[2];
+
+if (!filePath) {
+  logErrorAndExit();
+}
 
 try {
   let file = fs.readFileSync(filePath);
   var config = JSON.parse(file);
 } catch(e) {
+  logErrorAndExit(e);
+}
+
+function logErrorAndExit (e) {
   console.log('Please provide path to a valid json file');
-  console.log(`Error: ${e}`);
+  if (e)
+    console.log(`Error: ${e}`);
   process.exit(1);
 }
 
@@ -17,5 +26,7 @@ export default _.merge({
   mysql: {
     host: 'localhost',
     user: 'root'
-  }
+  },
+  verbose: _.includes(process.argv, '-v'),
+  mysqldumpOptions: []
 }, config);
