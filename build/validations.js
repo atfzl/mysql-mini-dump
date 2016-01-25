@@ -32,13 +32,13 @@ if (_config2.default.fakeConstraints) {
       process.exit(1);
     }
 
-    _lodash2.default.every(_config2.default.fakeConstraints, function (ob) {
-      return _lodash2.default.every(_lodash2.default.keys(ob), function (key) {
-        if (!_lodash2.default.includes(requiredKeys, key)) {
-          console.log(key + ' in not a valid key in fakeConstraints');
-          process.exit(1);
-        }
-      });
+    _lodash2.default.forEach(_config2.default.fakeConstraints, function (ob) {
+      var valid = _lodash2.default.every(requiredKeys, _lodash2.default.partial(_lodash2.default.has, ob));
+      var difference = _lodash2.default.difference(requiredKeys, _lodash2.default.keys(ob));
+      if (!valid) {
+        console.log(require('util').inspect(ob, false, null) + ' \n in fakeConstraints is missing required key(s): ' + difference);
+        process.exit(1);
+      }
     });
   })();
 }

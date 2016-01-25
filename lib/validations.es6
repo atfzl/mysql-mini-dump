@@ -25,12 +25,12 @@ if (config.fakeConstraints) {
     process.exit(1);
   }
 
-  _.every(config.fakeConstraints, (ob) => {
-    return _.every(_.keys(ob), (key) => {
-      if (!_.includes(requiredKeys, key)) {
-        console.log(`${key} in not a valid key in fakeConstraints`);
-        process.exit(1);
-      }
-    });
+  _.forEach(config.fakeConstraints, (ob) => {
+    let valid = _.every(requiredKeys, _.partial(_.has, ob));
+    let difference = _.difference(requiredKeys, _.keys(ob));
+    if (!valid) {
+      console.log(`${require('util').inspect(ob, false, null)} \n in fakeConstraints is missing required key(s): ${difference}`);
+      process.exit(1);
+    }
   });
 }
