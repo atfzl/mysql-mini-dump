@@ -1,7 +1,7 @@
 {
-  "name": "mysql-constraint-dump",
+  "name": "mysql-mini-dump",
   "version": "1.0.0",
-  "description": "",
+  "description": "Create mysqldump of limited data with corresponding tables satisfying foreign key constraints",
   "main": "app.js",
   "engines": {
     "node": "*"
@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Atif Afzal",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "babel-eslint": "^5.0.0-beta6",
     "babel-preset-es2015": "^6.3.13",

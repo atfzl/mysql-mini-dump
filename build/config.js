@@ -10,7 +10,10 @@ var _lodash2 = _interopRequireDefault(_lodash);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var filePath = './../sampleConfig.js';
+var filePath = _lodash2.default.last(process.argv);
+
+console.log(filePath);
+process.exit();
 
 try {
   var config = require(filePath);

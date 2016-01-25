@@ -4,21 +4,21 @@ module.exports = {
   mysql: {
     host     : 'localhost',
     user     : 'root',
-    password : 'paytm@197',
-    database : 'mktplace'
+    password : 'password',
+    database : 'database'
   },
   dump: {
-    table      : 'catalog_product',
+    table      : 'product',
     primaryKey : 'id',
     offset     : 100,
-    limit      : 2
+    limit      : 100
   },
-  mysqldumpOptions: [],
+  mysqldumpOptions: ['quote-names', 'lock-all-tables'],
   overridePrimaryKey: {
-    catalog_product: 'id'
+    category: 'id'
   },
   fakeConstraints: [{
-    TABLE_NAME: 'catalog_product',
+    TABLE_NAME: 'product',
     COLUMN_NAME: 'merchant_id',
     REFERENCED_TABLE_NAME: 'merchant',
     REFERENCED_COLUMN_NAME: 'id'

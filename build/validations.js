@@ -10,9 +10,10 @@ var _config2 = _interopRequireDefault(_config);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// if (process.argv.length !== 3) {
-//   console.log('Please provide path to json config file as next argument'.red);
-// }
+if (process.argv.length < 2) {
+  console.log('Please provide path to json config file as next argument'.red);
+  process.exit(1);
+}
 
 var shouldHaveKeys = ['mysql.password', 'mysql.database', 'dump.table', 'dump.offset', 'dump.limit'];
 

@@ -1,6 +1,8 @@
-// if (process.argv.length !== 3) {
+// if (process.argv.length < 2) {
 //   console.log('Please provide path to json config file as next argument'.red);
+//   process.exit(1);
 // }
+
 import _      from 'lodash';
 import config from './config';
 
