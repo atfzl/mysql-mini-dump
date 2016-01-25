@@ -1,7 +1,7 @@
 {
-  "name": "mysql-mini-dump",
+  "name": "mysqlminidump",
   "version": "1.0.0",
-  "description": "Create mysqldump of limited data with corresponding tables satisfying foreign key constraints",
+  "description": "Dumps your main table and all the required tables with foreign key constraints.",
   "engines": {
     "node": "*"
   },
