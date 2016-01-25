@@ -2,14 +2,20 @@
   "name": "mysql-mini-dump",
   "version": "1.0.0",
   "description": "Create mysqldump of limited data with corresponding tables satisfying foreign key constraints",
-  "main": "app.js",
   "engines": {
     "node": "*"
+  },
+  "preferGlobal": true,
+  "bin": {
+    "mysqlminidump": "app.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Atif Afzal",
+  "author": {
+    "name": "Atif Afzal",
+    "email": "atif5801@gmail.com"
+  },
   "license": "MIT",
   "devDependencies": {
     "babel-eslint": "^5.0.0-beta6",
@@ -30,5 +36,21 @@
     "mysql": "^2.10.2",
     "set": "^1.1.1",
     "shelljs": "^0.5.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atfzl/mysql-mini-dump.git"
+  },
+  "keywords": [
+    "mysql",
+    "dump",
+    "foreign",
+    "key",
+    "constraint",
+    "mini"
+  ],
+  "bugs": {
+    "url": "https://github.com/atfzl/mysql-mini-dump/issues"
+  },
+  "homepage": "https://github.com/atfzl/mysql-mini-dump#readme"
 }

@@ -1,11 +1,14 @@
-import _ from 'lodash';
+import _  from 'lodash';
+import fs from 'fs';
 
-let filePath = './../sampleConfig.js';
+let filePath = _.last(process.argv);
 
 try {
-  var config = require(filePath);
+  let file = fs.readFileSync(filePath);
+  var config = JSON.parse(file);
 } catch(e) {
-  console.log('Please provide path to valid js or json file');
+  console.log('Please provide path to a valid json file');
+  console.log(`Error: ${e}`);
   process.exit(1);
 }
 
