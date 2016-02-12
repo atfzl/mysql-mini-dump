@@ -23,6 +23,8 @@ export default function createDump (primaryIdsMap) {
   try {
     fs.unlinkSync(config.resultFile);
   } catch (e) {} // silent even if file doesn't exist
+
+  fs.writeFileSync(config.resultFile, 'SET FOREIGN_KEY_CHECKS=0;\n');
   
   primaryIdsMap = _.mapValues(primaryIdsMap, value => _.chunk(Array.from(value), chunkSize));
   

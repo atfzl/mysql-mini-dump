@@ -42,6 +42,8 @@ function createDump(primaryIdsMap) {
     _fs2.default.unlinkSync(_config2.default.resultFile);
   } catch (e) {} // silent even if file doesn't exist
 
+  _fs2.default.writeFileSync(_config2.default.resultFile, 'SET FOREIGN_KEY_CHECKS=0;\n');
+
   primaryIdsMap = _lodash2.default.mapValues(primaryIdsMap, function (value) {
     return _lodash2.default.chunk(Array.from(value), chunkSize);
   });
