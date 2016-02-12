@@ -19,21 +19,21 @@ config.json sample:
 
 ```
 {
-  "verbose": false,
+  "verbose": true,
+  "chunkSize": 1000,
   "resultFile": "dump.sql",
-  "mysql": {
+  "mysqlConfig": {
     "host"     : "localhost",
     "user"     : "root",
     "password" : "password",
     "database" : "database"
   },
-  "dump": {
-    "table"      : "product",
-    "primaryKey" : "id",
-    "offset"     : 100,
-    "limit"      : 500
+  "dumpConfig": {
+    "table"       : "product",
+    "primaryKey"  : "id",
+    "starterQuery": "select * from product limit 100;"
   },
-  "mysqldumpOptions": ["quote-names", "lock-all-tables"],
+  "mysqldumpOptions": [],
   "overridePrimaryKey": {
     "category": "id"
   },
@@ -49,17 +49,20 @@ config.json sample:
 #### verbose  
 show logs
 
+#### chunkSize
+many dumps are created which are appended to the same file,
+this option tells how many ids to use to create a dump.
+
 #### resultFile
 output dump file path
 
-#### mysql
+#### mysqlConfig
 mysql configuration
 
-#### dump
+#### dumpConfig
 * table: name of the main table
 * primaryKey: primary key of main table
-* offset and limit:  
-  eg `select * from product where limit 100, 500;` 100 is offset, 500 is limit
+* starterQuery: the query to start the dump process
 
 #### mysqldumpOptions
 array of mysqldump [options](http://dev.mysql.com/doc/refman/5.7/en/mysqldump.html)
