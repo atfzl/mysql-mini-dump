@@ -62,7 +62,7 @@ function mysqldump (mysqldumpArguments) {
   if (config.verbose)
     console.log("mysqldumpArguments = ", mysqldumpArguments);
   
-  return exec('mysqldump ' + mysqldumpArguments.join(' '))
+  return exec('mysqldump ' + mysqldumpArguments.join(' '), {maxBuffer: 10 * 1024 * 1024})
     .then(result => {
       return appendFile(config.resultFile, result.stdout);
     }).fail(err => P.reject('mysqldump error. Please try running with verbose option, Err: ' + err));
