@@ -38,26 +38,38 @@ function createDump(primaryIdsMap) {
   var chunkSize = _config2.default.chunkSize,
       finalArr = [];
 
-  _fs2.default.unlinkSync(_config2.default.resultFile);
+  try {
+    _fs2.default.unlinkSync(_config2.default.resultFile);
+  } catch (e) {} // silent even if file doesn't exist
 
   primaryIdsMap = _lodash2.default.mapValues(primaryIdsMap, function (value) {
     return _lodash2.default.chunk(Array.from(value), chunkSize);
   });
 
   _lodash2.default.forOwn(primaryIdsMap, function (idChunks, table) {
-    finalArr.push(table); // for drop table statement
-    _lodash2.default.forEach(idChunks, function (idChunk) {
-      finalArr.push([table, idChunk]);
+    _lodash2.default.forEach(idChunks, function (idChunk, index) {
+      if (index === 0) {
+        finalArr.push([table, idChunk, true]);
+      } else {
+        finalArr.push([table, idChunk]);
+      }
     });
   });
 
   return _bluebird2.default.each(finalArr, function (arr) {
-    if (typeof arr === 'string') {
-      var table = arr;
-      return appendFile(_config2.default.resultFile, 'DROP TABLE IF EXISTS `' + table + '` \n');
+    if (arr[2]) {
+      // first chunk of ids of a table
+      var table = arr[0];
+      return appendFile(_config2.default.resultFile, 'DROP TABLE IF EXISTS `' + table + '` \n').then(function () {
+        var table = arr[0],
+            ids = arr[1];
+        return mysqldump(mysqldumpArguments.concat(whereCondition(arr[0], arr[1]))); // includes create table statement
+      });
     } else {
-      return mysqldump(mysqldumpArguments.concat(whereCondition(arr[0], arr[1])));
-    }
+        var table = arr[0],
+            ids = arr[1];
+        return mysqldump(mysqldumpArguments.concat(['--no-create-info']).concat(whereCondition(arr[0], arr[1])));
+      }
   }).then(function () {
     return _bluebird2.default.resolve(_config2.default.resultFile);
   });
