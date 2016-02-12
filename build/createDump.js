@@ -60,7 +60,7 @@ function createDump(primaryIdsMap) {
     if (arr[2]) {
       // first chunk of ids of a table
       var table = arr[0];
-      return appendFile(_config2.default.resultFile, 'DROP TABLE IF EXISTS `' + table + '` \n').then(function () {
+      return appendFile(_config2.default.resultFile, 'DROP TABLE IF EXISTS `' + table + '`;\n').then(function () {
         var table = arr[0],
             ids = arr[1];
         return mysqldump(mysqldumpArguments.concat(whereCondition(arr[0], arr[1]))); // includes create table statement

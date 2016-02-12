@@ -39,7 +39,7 @@ export default function createDump (primaryIdsMap) {
   return P.each(finalArr, (arr) => {
     if (arr[2]) { // first chunk of ids of a table
       let table = arr[0];
-      return appendFile(config.resultFile, `DROP TABLE IF EXISTS \`${table}\` \n`)
+      return appendFile(config.resultFile, `DROP TABLE IF EXISTS \`${table}\`;\n`)
         .then(() => {
           let table = arr[0],
               ids   = arr[1];
