@@ -2,11 +2,11 @@ import P      from 'bluebird';
 import mysql  from 'mysql';
 import config from './config';
 
-let mysqlClient = mysql.createConnection(config.mysql),
-    query       = P.promisify(::mysqlClient.query);
+let conn  = mysql.createConnection(config.mysqlConfig),
+    query = P.promisify(conn.query, {context: conn});
 
-process.on('exit', () => mysqlClient.end());
+process.on('exit', () => conn.end());
 
-mysqlClient.connect();
+conn.connect();
 
 export default query;

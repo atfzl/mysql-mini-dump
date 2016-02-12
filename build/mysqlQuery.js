@@ -18,13 +18,13 @@ var _config2 = _interopRequireDefault(_config);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var mysqlClient = _mysql2.default.createConnection(_config2.default.mysql),
-    query = _bluebird2.default.promisify(mysqlClient.query.bind(mysqlClient));
+var conn = _mysql2.default.createConnection(_config2.default.mysqlConfig),
+    query = _bluebird2.default.promisify(conn.query, { context: conn });
 
 process.on('exit', function () {
-    return mysqlClient.end();
+    return conn.end();
 });
 
-mysqlClient.connect();
+conn.connect();
 
 exports.default = query;

@@ -17,7 +17,7 @@ var lib          = 'lib',
     es6Extension = 'es6',
     jsExtension  = 'js',
     
-    babelPresets = ['es2015', 'stage-0'],
+    babelPresets = ['es2015', 'stage-2'],
     entryFile    = 'app.js';
 
 gulp.task('default', ['transpile-watch']);

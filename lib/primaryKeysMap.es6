@@ -1,7 +1,6 @@
 import P      from 'bluebird';
 import _      from 'lodash';
 import config from './config';
-import Set    from 'set';
 
 import {
   getMainTableRows,
@@ -9,12 +8,12 @@ import {
   getForeignKeyMap
 } from './utils';
 
-let { dump } = config;
+let { dumpConfig } = config;
 
 export default function getPrimaryKeyMap () {
-  return P.all([getMainTableRows(dump), getForeignKeyMap(dump)])
+  return P.all([getMainTableRows(dumpConfig), getForeignKeyMap(dumpConfig)])
     .spread((rows, foreignKeyMap) => {
-      mapInterface.fill(dump.table, _.map(rows, dump.primaryKey));
+      mapInterface.fill(dumpConfig.table, _.map(rows, dumpConfig.primaryKey));
       return core(rows, foreignKeyMap);
     })
     .then(() => P.resolve(mapInterface.get()) );
@@ -41,7 +40,7 @@ var mapInterface = (function() {
   return {
     fill(table, ids) {
       if (map[table]) {
-        ids.forEach(::map[table].add);
+        ids.forEach(map[table].add.bind(map[table]));
       } else {
         map[table] = new Set(ids);
       }

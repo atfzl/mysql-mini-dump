@@ -17,18 +17,14 @@ var _config = require('./config');
 
 var _config2 = _interopRequireDefault(_config);
 
-var _set = require('set');
-
-var _set2 = _interopRequireDefault(_set);
-
 var _utils = require('./utils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var dump = _config2.default.dump;
+var dumpConfig = _config2.default.dumpConfig;
 function getPrimaryKeyMap() {
-  return _bluebird2.default.all([(0, _utils.getMainTableRows)(dump), (0, _utils.getForeignKeyMap)(dump)]).spread(function (rows, foreignKeyMap) {
-    mapInterface.fill(dump.table, _lodash2.default.map(rows, dump.primaryKey));
+  return _bluebird2.default.all([(0, _utils.getMainTableRows)(dumpConfig), (0, _utils.getForeignKeyMap)(dumpConfig)]).spread(function (rows, foreignKeyMap) {
+    mapInterface.fill(dumpConfig.table, _lodash2.default.map(rows, dumpConfig.primaryKey));
     return core(rows, foreignKeyMap);
   }).then(function () {
     return _bluebird2.default.resolve(mapInterface.get());
@@ -56,11 +52,9 @@ var mapInterface = function () {
   return {
     fill: function fill(table, ids) {
       if (map[table]) {
-        var _context;
-
-        ids.forEach((_context = map[table]).add.bind(_context));
+        ids.forEach(map[table].add.bind(map[table]));
       } else {
-        map[table] = new _set2.default(ids);
+        map[table] = new Set(ids);
       }
     },
     get: function get() {

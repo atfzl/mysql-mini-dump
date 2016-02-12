@@ -3,8 +3,8 @@ import P      from 'bluebird';
 import query  from './mysqlQuery';
 import config from './config';
 
-export const getMainTableRows = ({ table, offset, limit }) => {
-  let q = `select * from ${table} limit ${offset}, ${limit} ;`;
+export const getMainTableRows = ({ starterQuery }) => {
+  let q = starterQuery;
   logQuery(q);
   return query(q)
     .catch(err => P.reject([q, err]) );

@@ -1,3 +1,4 @@
+import 'es6-shim';
 import 'colors';
 import './validations';
 

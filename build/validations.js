@@ -10,7 +10,7 @@ var _config2 = _interopRequireDefault(_config);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var shouldHaveKeys = ['mysql.password', 'mysql.database', 'dump.table', 'dump.offset', 'dump.limit'];
+var shouldHaveKeys = ['mysqlConfig.password', 'mysqlConfig.database', 'dumpConfig.table'];
 
 shouldHaveKeys.forEach(function (key) {
   if (!_lodash2.default.has(_config2.default, key)) {

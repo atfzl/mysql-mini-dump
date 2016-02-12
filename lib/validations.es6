@@ -1,11 +1,9 @@
 import _      from 'lodash';
 import config from './config';
 
-var shouldHaveKeys = ['mysql.password',
-                      'mysql.database',
-                      'dump.table',
-                      'dump.offset',
-                      'dump.limit'];
+var shouldHaveKeys = ['mysqlConfig.password',
+                      'mysqlConfig.database',
+                      'dumpConfig.table'];
 
 shouldHaveKeys.forEach(function (key) {
   if (!_.has(config, key)) {

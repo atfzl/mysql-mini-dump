@@ -1,19 +1,19 @@
 {
-  "verbose": false,
+  "verbose": true,
+  "chunkSize": 1000,
   "resultFile": "dump.sql",
-  "mysql": {
+  "mysqlConfig": {
     "host"     : "localhost",
     "user"     : "root",
     "password" : "password",
     "database" : "database"
   },
-  "dump": {
-    "table"      : "product",
-    "primaryKey" : "id",
-    "offset"     : 100,
-    "limit"      : 100
+  "dumpConfig": {
+    "table"       : "product",
+    "primaryKey"  : "id",
+    "starterQuery": "select * from product limit 100;"
   },
-  "mysqldumpOptions": ["quote-names", "lock-all-tables"],
+  "mysqldumpOptions": [],
   "overridePrimaryKey": {
     "category": "id"
   },

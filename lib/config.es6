@@ -1,7 +1,8 @@
-import _  from 'lodash';
-import fs from 'fs';
+import _    from 'lodash';
+import fs   from 'fs';
+import path from 'path';
 
-let filePath = process.argv[2];
+let filePath = path.resolve(process.argv[2]);
 
 if (!filePath) {
   logErrorAndExit();
@@ -21,12 +22,17 @@ function logErrorAndExit (e) {
   process.exit(1);
 }
 
-export default _.merge({
+let finalConfig = _.merge({
   resultFile: 'mysql-constraint-dump.sql',
   mysql: {
     host: 'localhost',
     user: 'root'
   },
-  verbose: _.includes(process.argv, '-v'),
   mysqldumpOptions: []
 }, config);
+
+if (_.includes(process.argv, '-v')) {
+  finalConfig.verbose = true;
+}
+
+export default finalConfig;

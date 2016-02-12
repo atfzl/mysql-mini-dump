@@ -1,34 +1,57 @@
-import shell     from 'shelljs';
-import _         from 'lodash';
-import P         from 'bluebird';
-import config    from './config';
+import _              from 'lodash';
+import P              from 'bluebird';
+import fs             from 'fs';
+import child_process  from 'child-process-promise';
+import config         from './config';
 
-shell.config.silent = true;
-
-let exec = P.promisify(shell.exec, {context: shell, multiArgs: true});
-
-let mysqldumpBase = `mysqldump -h${config.mysql.host} -u${config.mysql.user} -p${config.mysql.password} ${config.mysql.database}`;
+const exec       = child_process.exec;
+const appendFile = P.promisify(fs.appendFile);
 
 export default function createDump (primaryIdsMap) {
-  let tableDumps = _.map(primaryIdsMap, (ids, table) => {
-    let primaryKey = _.get(config, 'overridePrimaryKey[table]') || 'id';
-    return `${table} --where "${primaryKey} in (${_.keys(ids._set)})"`;
-  }).join(' ');
+  let mysqldumpArguments = config.mysqldumpOptions
+        .concat(['skip-add-drop-table'])
+        .map(val => `--${val}`)
+        .concat([
+          `-h${config.mysqlConfig.host}`,
+          `-u${config.mysqlConfig.user}`,
+          `-p${config.mysqlConfig.password}`,
+          `${config.mysqlConfig.database}`]);
 
-  let mysqldumpOptions = config.mysqldumpOptions
-        .map(val => `--${val}`).join(' ');
+  let chunkSize = config.chunkSize,
+      finalArr  = [];
+
+  fs.unlinkSync(config.resultFile);
   
-  let resultFile = `--result-file ${config.resultFile}`;
+  primaryIdsMap = _.mapValues(primaryIdsMap, value => _.chunk(Array.from(value), chunkSize));
   
-  let finalDumpQuery = `${mysqldumpBase} ${tableDumps} ${mysqldumpOptions} ${resultFile}`;
+  _.forOwn(primaryIdsMap, (idChunks, table) => {
+    finalArr.push(table); // for drop table statement
+    _.forEach(idChunks, idChunk => {
+      finalArr.push([table, idChunk]);
+    });
+  });
   
-  if (config.verbose)
-    console.log(finalDumpQuery);
-  
-  return exec(finalDumpQuery)
-    .then((stdout, stderr) => {
-      return stderr
-        ? P.reject(`mysqldump Error: ${stderr}`)
-        : P.resolve(config.resultFile);
-    }).catch((code) => P.reject('mysqldump error. Please try running with verbose option'));
+  return P.each(finalArr, (arr) => {
+    if (typeof arr === 'string') {
+      let table = arr;
+      return appendFile(config.resultFile, `DROP TABLE IF EXISTS \`${table}\` \n`);
+    } else {
+      return mysqldump(mysqldumpArguments.concat(whereCondition(arr[0], arr[1])));
+    }
+  }).then(() => P.resolve(config.resultFile));
 };
+
+function whereCondition (table, ids) {
+  let primaryKey = _.get(config, `overridePrimaryKey[${table}]`) || 'id';
+  return [table, '--where', `"${primaryKey} in (${ids.join(',')})"`];
+}
+
+function mysqldump (mysqldumpArguments) {
+  if (config.verbose)
+    console.log("mysqldumpArguments = ", mysqldumpArguments);
+  
+  return exec('mysqldump ' + mysqldumpArguments.join(' '))
+    .then(result => {
+      return appendFile(config.resultFile, result.stdout);
+    }).fail(err => P.reject('mysqldump error. Please try running with verbose option, Err: ' + err));
+}

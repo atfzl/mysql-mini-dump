@@ -24,11 +24,9 @@ var _config2 = _interopRequireDefault(_config);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var getMainTableRows = exports.getMainTableRows = function getMainTableRows(_ref) {
-  var table = _ref.table;
-  var offset = _ref.offset;
-  var limit = _ref.limit;
+  var starterQuery = _ref.starterQuery;
 
-  var q = 'select * from ' + table + ' limit ' + offset + ', ' + limit + ' ;';
+  var q = starterQuery;
   logQuery(q);
   return (0, _mysqlQuery2.default)(q).catch(function (err) {
     return _bluebird2.default.reject([q, err]);

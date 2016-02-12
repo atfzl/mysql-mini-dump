@@ -12,9 +12,13 @@ var _fs = require('fs');
 
 var _fs2 = _interopRequireDefault(_fs);
 
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var filePath = process.argv[2];
+var filePath = _path2.default.resolve(process.argv[2]);
 
 if (!filePath) {
   logErrorAndExit();
@@ -33,12 +37,17 @@ function logErrorAndExit(e) {
   process.exit(1);
 }
 
-exports.default = _lodash2.default.merge({
+var finalConfig = _lodash2.default.merge({
   resultFile: 'mysql-constraint-dump.sql',
   mysql: {
     host: 'localhost',
     user: 'root'
   },
-  verbose: _lodash2.default.includes(process.argv, '-v'),
   mysqldumpOptions: []
 }, config);
+
+if (_lodash2.default.includes(process.argv, '-v')) {
+  finalConfig.verbose = true;
+}
+
+exports.default = finalConfig;
