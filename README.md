@@ -1,3 +1,5 @@
+# ! NEEDS mysqldump utility installed to work
+
 # mysqlminidump
 
 Create small mysql dumps from your production database.
