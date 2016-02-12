@@ -83,7 +83,7 @@ function whereCondition(table, ids) {
 function mysqldump(mysqldumpArguments) {
   if (_config2.default.verbose) console.log("mysqldumpArguments = ", mysqldumpArguments);
 
-  return exec('mysqldump ' + mysqldumpArguments.join(' ')).then(function (result) {
+  return exec('mysqldump ' + mysqldumpArguments.join(' '), { maxBuffer: 10 * 1024 * 1024 }).then(function (result) {
     return appendFile(_config2.default.resultFile, result.stdout);
   }).fail(function (err) {
     return _bluebird2.default.reject('mysqldump error. Please try running with verbose option, Err: ' + err);
