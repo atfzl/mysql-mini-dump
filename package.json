@@ -1,6 +1,6 @@
 {
   "name": "mysqlminidump",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Dumps your main table and all the required tables with foreign key constraints.",
   "engines": {
     "node": "*"
