@@ -25,9 +25,9 @@ export default function createDump (primaryIdsMap) {
   } catch (e) {} // silent even if file doesn't exist
 
   fs.writeFileSync(config.resultFile, 'SET FOREIGN_KEY_CHECKS=0;\n');
-  
+
   primaryIdsMap = _.mapValues(primaryIdsMap, value => _.chunk(Array.from(value), chunkSize));
-  
+
   _.forOwn(primaryIdsMap, (idChunks, table) => {
     _.forEach(idChunks, (idChunk, index) => {
       if (index === 0) {
@@ -37,7 +37,7 @@ export default function createDump (primaryIdsMap) {
       }
     });
   });
-  
+
   return P.each(finalArr, (arr) => {
     if (arr[2]) { // first chunk of ids of a table
       let table = arr[0];
@@ -63,7 +63,7 @@ function whereCondition (table, ids) {
 function mysqldump (mysqldumpArguments) {
   if (config.verbose)
     console.log("mysqldumpArguments = ", mysqldumpArguments);
-  
+
   return exec('mysqldump ' + mysqldumpArguments.join(' '), {maxBuffer: 10 * 1024 * 1024})
     .then(result => {
       return appendFile(config.resultFile, result.stdout);
