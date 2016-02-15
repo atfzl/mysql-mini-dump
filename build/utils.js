@@ -37,7 +37,7 @@ var getTableRows = exports.getTableRows = function getTableRows(_ref2) {
   var table = _ref2.table;
   var ids = _ref2.ids;
 
-  var primaryKey = _lodash2.default.get(_config2.default, 'overridePrimaryKey[table]') || 'id';
+  var primaryKey = _lodash2.default.get(_config2.default, 'overridePrimaryKey[' + table + ']') || 'id';
   var q = 'select * from ' + table + ' where ' + primaryKey + ' in ( ' + ids + ' ) ;';
   logQuery(q);
   return (0, _mysqlQuery2.default)(q).catch(function (err) {
